@@ -1,0 +1,19 @@
+# Add `~.local/bin` to `$PATH`
+export PATH="$HOME/.local/bin:$PATH"
+
+# Add Homebrew folders to `$PATH`
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Load the shell dotfiles, and then some:
+# * ~/.z_path can be used to extend `$PATH`.
+# * ~/.z_extra can be used for other settings you don’t want to commit.
+for file in ~/.{z_path,z_exports,z_aliases,z_functions,z_extra}; do
+	[ -r "$file" ] && [ -f "$file" ] && . "$file";
+done;
+unset file;
+
+# Setup asdf with completions
+# See: https://asdf-vm.com/
+. "$HOME/.asdf/asdf.sh"
+fpath=(${ASDF_DIR}/completions $fpath)
+autoload -Uz compinit && compinit
